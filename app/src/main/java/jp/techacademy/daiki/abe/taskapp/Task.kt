@@ -6,6 +6,7 @@ import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
 open class Task : RealmObject(), Serializable {
+    var category: String = ""
     var title: String = ""
     var contents: String = ""
     var date: Date = Date()

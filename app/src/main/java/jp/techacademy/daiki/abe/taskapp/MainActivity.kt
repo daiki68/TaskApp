@@ -2,15 +2,12 @@ package jp.techacademy.daiki.abe.taskapp
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.Context
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import io.realm.RealmChangeListener
 import io.realm.Sort
-import java.util.*
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 
@@ -29,6 +26,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        button.setOnClickListener {
+            val a = mRealm.where(Task::class.java).equalTo("category",editText.text.toString()).findAll()
+
+            mTaskAdapter.mTaskList = mRealm.copyFromRealm(a)
+
+            listview1.adapter = mTaskAdapter
+
+            mTaskAdapter.notifyDataSetChanged()
+        }
 
         fab.setOnClickListener { view ->
             val intent = Intent(this, InputActivity::class.java)
@@ -70,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     PendingIntent.FLAG_CANCEL_CURRENT
                 )
 
-                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
                 alarmManager.cancel(resultPendingIntent)
 
                 reloadListView()
@@ -82,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
 
             true
+
         }
 
         reloadListView()

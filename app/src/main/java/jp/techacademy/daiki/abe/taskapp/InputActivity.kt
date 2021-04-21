@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,7 +31,7 @@ class InputActivity : AppCompatActivity() {
                 val dateString = mYear.toString() + "/" + String.format(
                     "%02d",
                     mMonth + 1
-                ) + String.format("%02d", mDay)
+                ) + "/" + String.format("%02d", mDay)
                 date_button.text = dateString
             }, mYear, mMonth, mDay)
         datePickerDialog.show()
@@ -82,7 +81,9 @@ class InputActivity : AppCompatActivity() {
             mHour = calendar.get(Calendar.HOUR_OF_DAY)
             mMinute = calendar.get(Calendar.MINUTE)
         } else {
-            title_edit_text.setText(mTask!!.contents)
+            category_edit_text.setText(mTask!!.category)
+            title_edit_text.setText(mTask!!.title)
+            content_edit_text.setText(mTask!!.contents)
 
             val calendar = Calendar.getInstance()
             calendar.time = mTask!!.date
@@ -92,7 +93,7 @@ class InputActivity : AppCompatActivity() {
             mHour = calendar.get(Calendar.HOUR_OF_DAY)
             mMinute = calendar.get(Calendar.MINUTE)
 
-            val dateString = mYear.toString() + "/" + String.format("%02d", mMonth + 1) + String.format("%02d", mDay)
+            val dateString = mYear.toString() + "/" + String.format("%02d", mMonth + 1) + "/" + String.format("%02d", mDay)
             val timeString = String.format("%02d", mHour) + ":" + String.format("%02d", mMinute)
 
             date_button.text = dateString
@@ -119,9 +120,11 @@ class InputActivity : AppCompatActivity() {
             mTask!!.id = identifier
         }
 
+        val category = category_edit_text.text.toString()
         val title = title_edit_text.text.toString()
         val content = content_edit_text.text.toString()
 
+        mTask!!.category = category
         mTask!!.title = title
         mTask!!.contents = content
         val calendar = GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute)
@@ -142,7 +145,7 @@ class InputActivity : AppCompatActivity() {
             PendingIntent.FLAG_CANCEL_CURRENT
         )
 
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, resultPendingIntent)
     }
 }
