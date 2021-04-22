@@ -22,4 +22,18 @@
         android:src="@drawable/plus"
         app:backgroundTint="@color/colorPrimary" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="80dp"
+        android:layout_gravity="bottom|right"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:layout_gravity="bottom|left"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
